@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Notewriter</title>
+	<script src="./JS/vue.global.prod.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4"></script>
+	<script src="./JS/clipboard.min.js"></script>
+	<script src="./JS/file-saver.js"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+	<div id="app">
+
+		<h1>ED Provider Note</h1>
+
+		<div id="input-display">
+			<!--HPI Section-->
+			<div id="hpi-section" class="col">
+				<h3>History of Present Illness</h3>
+				<div>
+					<label for="age">Age:</label>
+					<input type="number" v-model.number="hpiData.age" id="age">
+
+					<label for="gender">Gender:</label>
+					<select v-model="hpiData.gender" id="gender">
+						<option value="male">Male</option>
+						<option value="female">Female</option>
+					</select>
+				</div>
+				<div class="row">
+					<div class="col-50">
+						<label for="pmh">Past Medical History:</label>
+						<br><br>
+						<select v-model="hpiData.pmh" id="pmh" size="10" multiple>
+							<option v-for="(label, value) in pmhOptions" :key="label" :value="label"> {{ value }}
+							</option>
+						</select>
+						<br>
+						<input class="longerInput" type="text" v-model="hpiData.pmhOther" placeholder="Other PMH">
+					</div>
+					<div class="col-50">
+						<label for="problem">Chief Complaint:</label>
+						<br><br>
+						<select id="chiefComplaint" v-model="hpiData.problem" id="problem" size="10" multiple>
+							<option v-for="problem in problems" :key="problem" :value="problem">{{ problem }}</option>
+						</select>
+						<br>
+						<input class="longerInput" type="text" v-model="hpiData.problemOther"
+							placeholder="Other Chief Complaint">
+					</div>
+				</div>
+				<div class="col-100">
+					<label for="duration">Duration:</label>
+					<input type="number" v-model.number="hpiData.duration" id="duration">
+					<select v-model="hpiData.durationUnit">
+						<option v-for="duration in durations" :key="duration" :value="duration">{{ duration }}
+						</option>
+					</select>
+					<textarea rows="6" v-model="hpiData.hpiOther" placeholder="Fill in the gaps..."></textarea>
+				</div>
+
+			</div>
+
+			<div id="pe-section" class="col">
+				<h3>Physical Exam</h3>
+				<div v-for="(value, system) in physicalExam" :key="system">
+					<label>{{ system }}</label>
+					<br>
+					<textarea rows="2" id="pe-boxes" v-model="physicalExam[system]"></textarea>
+				</div>
+			</div>
+
+			<div id="mdm-section" class="col">
+				<h3>Medical Decision Making</h3>
+				<select v-model="chiefComplaint">
+					<option value="">Select Chief Complaint</option>
+					<option v-for="complaint in complaints" :key="complaint" :value="complaint">{{ complaint }}</option>
+				</select>
+				<br>
+				<textarea v-model="mdm" rows="8" placeholder="Enter MDM details..."></textarea>
+				<br>
+				<button @click="generateNote">Generate Note</button>
+
+				<div v-if="generatedNote">
+					<textarea rows="25" id="genNote">{{ generatedNote }}</textarea>
+					<button @click="downloadNote">Download</button>
+					<button class="copybtn" data-clipboard-target="#genNote">Copy</button>
+					<button @click="saveToArray">Save</button>
+				</div>
+			</div>
+		</div>
+		<div id="notes-array-display">
+			<h2>Saved Notes:</h2>
+			<ul>
+				<li v-for="(note, index) in notesArray" :key="index">
+					<button @click="showNote(index)" class="noteLabel">Note {{ index + 1 }}</button>
+					<pre v-if="visibleNoteIndex === index">{{ note }}</pre>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="./JS/script.js"></script>
+	<script>new ClipboardJS('.copybtn');</script>
+</body>
+
+</html>
