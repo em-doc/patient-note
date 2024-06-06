@@ -18,6 +18,7 @@ createApp({
                 Asthma: 'Asthma',
                 AFib: 'Atrial Fibrillation',
                 CAD: 'Coronary Artery Disease',
+                CHF: 'Congestive Heart Failure',
                 CKD: 'Chronic Kidney Disease',
                 COPD: 'Chronic Obstructive Pulmonary Disease',
                 CVA: 'Previous Cerebrovascular Accident',

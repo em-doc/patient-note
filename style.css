@@ -23,7 +23,8 @@
 	#pe-boxes,
 	textarea {
 		width: 90%;
-		font-size: 8pt;
+		font-size: 9pt;
+		font-family: Arial, Helvetica, sans-serif;
 	}
 
 	.row {
