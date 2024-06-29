@@ -23,7 +23,7 @@ jobs:
         pip install requests beautifulsoup4 feedgen python-dateutil
     
     - name: Run scraping script
-      run: python your_script_name.py
+      run: python rss-creator.py
     
     - name: Commit and push if changes
       run: |
